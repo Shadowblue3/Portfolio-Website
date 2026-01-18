@@ -10,7 +10,8 @@ import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { motion } from "framer-motion";
 import ClickSpark from './components/ui/ClickSpark';
 import LiquidEther from '@/components/ui/LiquidEther';
-import { Projects } from "@/components/Projects";
+import { Projects } from "./components/Projects";
+import { Skills } from "./components/Skills";
 import './App.css'
 
 
@@ -732,7 +733,7 @@ export default Feature;`}
 
             {/* Projects Section with StickyScroll */}
             <section id="projects" className="py-32 my-20 px-4 flex justify-center items-center"
-            style={{
+              style={{
                 marginBottom: "20px",
                 padding: "28px",
                 textAlign: "center",
@@ -744,21 +745,9 @@ export default Feature;`}
             </section>
 
             {/* Skills Section */}
-            <section id="skills" className="py-20 px-4 relative overflow-hidden">
-              <div className="max-w-4xl mx-auto relative z-10">
-                <h2 className="text-3xl font-bold text-white mb-12 text-center">
-                  Skills & Technologies
-                </h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {["React", "TypeScript", "Node.js", "Python", "PostgreSQL", "MongoDB", "AWS", "Docker"].map((skill) => (
-                    <div
-                      key={skill}
-                      className="glass rounded-xl p-4 text-center hover:border-purple-500/50 transition-colors"
-                    >
-                      <span className="text-white font-medium">{skill}</span>
-                    </div>
-                  ))}
-                </div>
+            <section id="skills" className="py-20 px-4 flex flex-col items-center justify-center relative overflow-hidden">
+              <div className="max-w-6xl mx-auto relative z-10 w-full">
+                <Skills />
               </div>
             </section>
 
