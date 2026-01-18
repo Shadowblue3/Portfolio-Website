@@ -137,7 +137,6 @@ export const PixelatedCanvas = ({
                     }
 
                     const seed = hash2D(cx, cy);
-                    // Store original position for each pixel
                     samples.push({
                         x,
                         y,
@@ -157,7 +156,7 @@ export const PixelatedCanvas = ({
             const canvasEl = canvasRef.current;
             if (!canvasEl) return;
 
-            // Draw initial normal image
+            // Draw initial normal image (clear)
             const ctx = canvasEl.getContext("2d");
             const dims = dimsRef.current;
             if (ctx && dims) {
@@ -224,58 +223,70 @@ export const PixelatedCanvas = ({
                 const t = now * 0.001 * jitterSpeed;
                 const currentRevealRadius = revealRadius * activity;
 
-                // Clear with black background
+                // If no hover activity, just draw the normal clear image
+                if (activity < 0.01) {
+                    ctx.drawImage(loadedImg, dims.dx, dims.dy, dims.dw, dims.dh);
+                    rafRef.current = requestAnimationFrame(animate);
+                    return;
+                }
+
+                // Draw background where pixels will break
                 ctx.fillStyle = backgroundColor;
                 ctx.fillRect(0, 0, dims.width, dims.height);
 
-                // Draw all pixels - those in reveal radius are displaced, others stay in place
+                // First pass: draw the normal image
+                ctx.drawImage(loadedImg, dims.dx, dims.dy, dims.dw, dims.dh);
+
+                // Second pass: cut out the reveal area and draw breaking pixels there
+                ctx.save();
+
+                // Create circular clip for the breaking area
+                ctx.beginPath();
+                ctx.arc(mx, my, currentRevealRadius, 0, Math.PI * 2);
+                ctx.clip();
+
+                // Fill the clipped area with black background
+                ctx.fillStyle = backgroundColor;
+                ctx.fillRect(0, 0, dims.width, dims.height);
+
+                // Draw breaking pixels in the clipped area
                 for (const s of samples) {
                     if (s.a <= 0) continue;
 
                     const origX = s.origX;
                     const origY = s.origY;
 
-                    // Check distance from mouse
                     const dx = origX - mx;
                     const dy = origY - my;
                     const dist = Math.sqrt(dx * dx + dy * dy);
 
+                    if (dist > currentRevealRadius) continue;
+
                     let drawX = origX;
                     let drawY = origY;
-                    let particleAlpha = s.a;
 
-                    // If within reveal radius, break apart the pixels
-                    if (dist < currentRevealRadius && activity > 0.01) {
-                        // Calculate how much to break based on distance (more at center)
-                        const breakIntensity = (1 - dist / currentRevealRadius) * activity;
+                    const breakIntensity = (1 - dist / currentRevealRadius) * activity;
 
-                        // Apply strong repel distortion - pixels scatter outward
-                        if (distortionMode === "repel") {
-                            const d = dist + 0.0001;
-                            const pushForce = distortionStrength * breakIntensity;
-                            drawX += (dx / d) * pushForce;
-                            drawY += (dy / d) * pushForce;
-                        } else if (distortionMode === "explode") {
-                            // Explode outward from center with randomness
-                            const d = dist + 0.0001;
-                            const angle = Math.atan2(dy, dx) + (s.seed - 0.5) * 0.5;
-                            const pushForce = distortionStrength * breakIntensity * (0.5 + s.seed);
-                            drawX = origX + Math.cos(angle) * pushForce;
-                            drawY = origY + Math.sin(angle) * pushForce;
-                        }
-
-                        // Add jitter/shake to broken pixels
-                        if (jitterStrength > 0) {
-                            const k = s.seed * 43758.5453;
-                            drawX += Math.sin(t + k) * jitterStrength * breakIntensity;
-                            drawY += Math.cos(t + k * 1.13) * jitterStrength * breakIntensity;
-                        }
-
-                        // Fade out pixels that are pushed far (creates gaps)
-                        const displacement = Math.sqrt((drawX - origX) ** 2 + (drawY - origY) ** 2);
-                        const fadeFactor = Math.max(0, 1 - displacement / (distortionStrength * 1.5));
-                        particleAlpha = s.a * (0.3 + fadeFactor * 0.7);
+                    // Explode pixels outward
+                    if (distortionMode === "explode" || distortionMode === "repel") {
+                        const d = dist + 0.0001;
+                        const angle = Math.atan2(dy, dx) + (s.seed - 0.5) * 0.3;
+                        const pushForce = distortionStrength * breakIntensity * (0.6 + s.seed * 0.4);
+                        drawX = origX + Math.cos(angle) * pushForce;
+                        drawY = origY + Math.sin(angle) * pushForce;
                     }
+
+                    // Add jitter
+                    if (jitterStrength > 0) {
+                        const k = s.seed * 43758.5453;
+                        drawX += Math.sin(t + k) * jitterStrength * breakIntensity;
+                        drawY += Math.cos(t + k * 1.13) * jitterStrength * breakIntensity;
+                    }
+
+                    // Fade pixels based on displacement
+                    const displacement = Math.sqrt((drawX - origX) ** 2 + (drawY - origY) ** 2);
+                    const fadeFactor = Math.max(0, 1 - displacement / (distortionStrength * 1.2));
+                    const particleAlpha = s.a * (0.4 + fadeFactor * 0.6);
 
                     ctx.globalAlpha = particleAlpha;
                     ctx.fillStyle = `rgb(${s.r}, ${s.g}, ${s.b})`;
@@ -288,6 +299,8 @@ export const PixelatedCanvas = ({
                         ctx.fillRect(drawX - dims.dot / 2, drawY - dims.dot / 2, dims.dot, dims.dot);
                     }
                 }
+
+                ctx.restore();
                 ctx.globalAlpha = 1;
 
                 rafRef.current = requestAnimationFrame(animate);

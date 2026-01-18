@@ -471,20 +471,20 @@ const ProfileImage = () => {
         src={imageUrl}
         width={320}
         height={380}
-        cellSize={4}
-        dotScale={0.85}
+        cellSize={3}
+        dotScale={0.92}
         shape="circle"
         backgroundColor="#000000"
         interactive={true}
-        distortionStrength={40}
-        distortionRadius={120}
+        distortionStrength={15}
+        distortionRadius={100}
         distortionMode="explode"
         followSpeed={0.25}
-        jitterStrength={15}
-        jitterSpeed={6}
+        jitterStrength={6}
+        jitterSpeed={5}
         fadeOnLeave={true}
         fadeSpeed={0.15}
-        revealRadius={100}
+        revealRadius={90}
         className="relative rounded-2xl border border-neutral-800"
       />
     </div>
