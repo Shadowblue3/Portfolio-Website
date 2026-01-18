@@ -2,7 +2,7 @@ import React from "react";
 import { Spotlight } from "@/components/ui/Spotlight";
 import { TextGenerateEffect } from "@/components/ui/TextGenerateEffect";
 import { HoverEffect } from "@/components/ui/HoverEffect";
-import { BackgroundBeams } from "@/components/ui/BackgroundBeams";
+import PixelSnow from "@/components/ui/PixelSnow";
 import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
 import { EvervaultBackground, Icon } from "@/components/ui/evervault-card";
 import { ThreeDMarquee } from "@/components/ui/3d-marquee";
@@ -12,6 +12,7 @@ import LiquidEther from "@/components/ui/liquid-ether";
 import { PixelatedCanvas } from "@/components/ui/PixelatedCanvas";
 import { motion } from "framer-motion";
 import ClickSpark from './components/ui/ClickSpark';
+import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa6";
 
 import { Projects } from "./components/Projects";
 import { Skills } from "./components/Skills";
@@ -775,10 +776,12 @@ export default Feature;`}
           </section>
 
           {/* Contact Section with BackgroundBeams */}
-          <section id="contact" className="py-20 px-4 relative min-h-[500px] z-10 bg-black">
-            <BackgroundBeams className="absolute inset-0" />
-            <div className="max-w-2xl mx-auto relative z-10">
-              <h2 className="text-3xl font-bold text-white mb-8 text-center">
+          <section id="contact" className="py-20 px-4 relative min-h-[500px] z-10 bg-black flex flex-col items-center justify-center" style={{ marginTop: "81px" }}>
+            <div className="absolute inset-0 w-full h-full">
+              <PixelSnow />
+            </div>
+            <div className="max-w-2xl mx-auto relative z-10 w-full">
+              <h2 className="text-3xl font-bold text-white mb-8 text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50">
                 Let's Connect
               </h2>
               <p className="text-neutral-400 text-center mb-8">
@@ -791,48 +794,71 @@ export default Feature;`}
                   <input
                     type="text"
                     placeholder="Your Name"
-                    className="w-full px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-purple-500 transition-colors"
+                    className="w-full px-4 py-3 bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-purple-500 transition-colors"
                   />
                   <input
                     type="email"
                     placeholder="Your Email"
-                    className="w-full px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-purple-500 transition-colors"
+                    className="w-full px-4 py-3 bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-purple-500 transition-colors"
                   />
                 </div>
                 <textarea
                   placeholder="Your Message"
                   rows="4"
-                  className="w-full px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-purple-500 transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-purple-500 transition-colors resize-none"
                 ></textarea>
                 <button
                   type="submit"
-                  className="w-full px-8 py-3 text-sm font-medium text-white bg-gradient-to-r from-blue-400 via-blue-500 to-cyan-400 rounded-lg hover:opacity-90 transition-all"
+                  className="w-full px-8 py-3 text-sm font-medium text-white bg-gradient-to-r from-blue-400 via-blue-500 to-cyan-400 rounded-lg hover:opacity-90 transition-all font-bold"
                 >
                   Send Message
                 </button>
               </form>
+
             </div>
           </section>
 
-          {/* Footer */}
-          <footer className="py-8 px-4 border-t border-neutral-800">
-            <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="text-neutral-500 text-sm">
+          {/* Footer Section */}
+          <footer className="flex justify-evenly items-center bg-black border-t border-neutral-800 py-8 px-4 relative z-10" style={{
+            padding: "20px"}}>
+            
+
+              <p className="text-neutral-500 text-sm order-2 md:order-1 text-center md:text-left">
                 © 2026 Your Name. All rights reserved.
               </p>
-              <div className="flex gap-6">
-                <a href="#" className="text-neutral-400 hover:text-white transition-colors">
-                  GitHub
-                </a>
-                <a href="#" className="text-neutral-400 hover:text-white transition-colors">
-                  LinkedIn
-                </a>
-                <a href="#" className="text-neutral-400 hover:text-white transition-colors">
-                  Twitter
-                </a>
+
+              <div className="flex flex-col items-center md:items-end gap-3 order-1 md:order-2 w-full md:w-auto">
+                <h3 className="text-white font-semibold text-lg">
+                  Connections
+                </h3>
+
+                <div className="flex gap-4">
+                  <a
+                    href="#"
+                    className="text-neutral-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
+                  >
+                    <FaGithub className="w-6 h-6" />
+                  </a>
+
+                  <a
+                    href="#"
+                    className="text-neutral-400 hover:text-blue-500 transition-colors p-2 hover:bg-white/10 rounded-full"
+                  >
+                    <FaLinkedin className="w-6 h-6" />
+                  </a>
+
+                  <a
+                    href="#"
+                    className="text-neutral-400 hover:text-sky-500 transition-colors p-2 hover:bg-white/10 rounded-full"
+                  >
+                    <FaTwitter className="w-6 h-6" />
+                  </a>
+                </div>
               </div>
-            </div>
+
+            
           </footer>
+
         </div>
 
       </ClickSpark>

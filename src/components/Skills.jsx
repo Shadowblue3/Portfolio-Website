@@ -22,7 +22,7 @@ import { FaJava } from "react-icons/fa";
 
 export function Skills() {
     return (
-        <div className="w-full">
+        <div className="w-full pb-32">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-16 text-center" style={{
                 marginBottom: "20px",
                 padding: "28px",
@@ -125,14 +125,19 @@ const Card = ({
         >
             {/* Animated shiny border */}
             <div
-                className="absolute inset-0 rounded-xl"
+                className="absolute inset-0 rounded-xl pointer-events-none"
                 style={{
                     background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent, rgba(255,255,255,0.4), transparent, rgba(255,255,255,0.1), transparent)',
                     backgroundSize: '200% 100%',
                     animation: 'shimmer 3s linear infinite',
+                    padding: '1px',
+                    mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                    maskComposite: 'exclude',
+                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                    WebkitMaskComposite: 'xor',
                 }}
             />
-            <div className="absolute inset-[1px] rounded-xl bg-black/80" />
+            <div className="absolute inset-[1px] rounded-xl bg-transparent" />
 
             {/* Corner Icons */}
             <Icon className="absolute h-5 w-5 -top-2 -left-2 text-white/40 z-10" />
