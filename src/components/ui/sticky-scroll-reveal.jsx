@@ -83,12 +83,23 @@ export const StickyScroll = ({
                 </div>
             </div>
             <div
-                style={{ background: backgroundGradient }}
                 className={cn(
-                    "sticky top-10 hidden h-80 w-[30rem] overflow-hidden rounded-md bg-white lg:block",
+                    "sticky top-10 hidden lg:flex flex-col gap-4 w-[30rem]",
                     contentClassName
                 )}>
-                {content[activeCard].content ?? null}
+                <div
+                    style={{ background: backgroundGradient }}
+                    className="h-80 w-full overflow-hidden rounded-md bg-white">
+                    {content[activeCard].content ?? null}
+                </div>
+                <div className="flex gap-7 justify-center">
+                    <a href={content[activeCard].visitLink} className="px-6 py-2 rounded-full border border-white/20 bg-black/50 text-white font-bold hover:bg-white/20 transition duration-200 backdrop-blur-sm" style={{ padding: "15px" }}>
+                        Visit Site
+                    </a>
+                    <a href={content[activeCard].githubLink} className="px-6 py-2 rounded-full border border-white/20 bg-black/50 text-white font-bold hover:bg-white/20 transition duration-200 backdrop-blur-sm" style={{ padding: "15px" }}>
+                        GitHub
+                    </a>
+                </div>
             </div>
         </motion.div >
     );
