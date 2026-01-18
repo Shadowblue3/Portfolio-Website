@@ -1,3 +1,4 @@
+import React from "react";
 import { Spotlight } from "@/components/ui/Spotlight";
 import { TextGenerateEffect } from "@/components/ui/TextGenerateEffect";
 import { HoverEffect } from "@/components/ui/HoverEffect";
@@ -8,6 +9,7 @@ import { ThreeDMarquee } from "@/components/ui/3d-marquee";
 import { World } from "@/components/ui/globe";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import LiquidEther from "@/components/ui/liquid-ether";
+import { PixelatedCanvas } from "@/components/ui/PixelatedCanvas";
 import { motion } from "framer-motion";
 import ClickSpark from './components/ui/ClickSpark';
 
@@ -455,18 +457,35 @@ const heroWords = [
 
 
 
-// Profile Image Component (normal image)
+// Profile Image Component with Pixelated Effect on Hover
 const ProfileImage = () => {
+  const imageUrl = "https://res.cloudinary.com/dnnkibrq2/image/upload/v1768590659/WhatsApp_Image_2026-01-03_at_11.45.42_PM_odw5hy.jpg";
+
   return (
     <div className="relative">
-      {/* Gradient ring behind image */}
-      <div className="absolute -inset-2 bg-gradient-to-r from-blue-400 via-blue-500 to-cyan-400 rounded-full blur-sm opacity-75"></div>
+      {/* Gradient glow behind image */}
+      <div className="absolute -inset-3 bg-gradient-to-r from-blue-400 via-blue-500 to-cyan-400 rounded-2xl blur-lg opacity-40"></div>
 
-      {/* Normal Image */}
-      <img
-        src="https://res.cloudinary.com/dnnkibrq2/image/upload/v1768590659/WhatsApp_Image_2026-01-03_at_11.45.42_PM_odw5hy.jpg"
-        alt="Profile"
-        className="relative w-64 h-64 md:w-72 md:h-72 object-cover rounded-full border-4 border-neutral-900"
+      {/* Pixelated Canvas with breaking effect */}
+      <PixelatedCanvas
+        src={imageUrl}
+        width={320}
+        height={380}
+        cellSize={4}
+        dotScale={0.85}
+        shape="circle"
+        backgroundColor="#000000"
+        interactive={true}
+        distortionStrength={40}
+        distortionRadius={120}
+        distortionMode="explode"
+        followSpeed={0.25}
+        jitterStrength={15}
+        jitterSpeed={6}
+        fadeOnLeave={true}
+        fadeSpeed={0.15}
+        revealRadius={100}
+        className="relative rounded-2xl border border-neutral-800"
       />
     </div>
   );
@@ -503,47 +522,50 @@ function App() {
       >
         {/* Your content here */}
 
-        {/* Hero Section with Evervault Effect */}
-        <EvervaultBackground className="min-h-screen flex flex-col items-center justify-center relative z-10 bg-black/90">
-          {/* Corner Icons */}
-          <Icon className="absolute h-6 w-6 top-4 left-4 text-white/30 z-30" />
-          <Icon className="absolute h-6 w-6 bottom-4 left-4 text-white/30 z-30" />
-          <Icon className="absolute h-6 w-6 top-4 right-4 text-white/30 z-30" />
-          <Icon className="absolute h-6 w-6 bottom-4 right-4 text-white/30 z-30" />
+        {/* Hero Section */}
+        <section className="min-h-screen flex flex-col items-center justify-center relative z-10">
+          {/* Content Container */}
+          <div className="relative z-20 max-w-5xl mx-auto w-full px-6">
+            <div className="flex flex-col-reverse md:flex-row items-center justify-center gap-10 md:gap-16">
+              {/* Glassy Text Content Container - Left Side */}
+              <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl shadow-2xl relative" style={{ padding: "60px" }}>
+                {/* Corner Icons */}
+                <Icon className="absolute h-6 w-6 top-4 left-4 text-white/30 z-30" />
+                <Icon className="absolute h-6 w-6 bottom-4 left-4 text-white/30 z-30" />
+                <Icon className="absolute h-6 w-6 top-4 right-4 text-white/30 z-30" />
+                <Icon className="absolute h-6 w-6 bottom-4 right-4 text-white/30 z-30" />
 
-          <div className="relative z-20 max-w-6xl mx-auto w-full px-4">
-            <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-10 md:gap-16">
-              {/* Text Content - Left Side */}
-              <div className="flex-1 text-center md:text-left">
-                {/* Typewriter Effect Heading */}
-                <TypewriterEffectSmooth words={heroWords} />
+                <div className="text-left">
+                  {/* Typewriter Effect Heading */}
+                  <TypewriterEffectSmooth words={heroWords} />
 
-                <TextGenerateEffect
-                  words="A passionate developer crafting beautiful digital experiences with modern technologies and creative solutions."
-                  className="mt-4 max-w-xl"
-                />
+                  <TextGenerateEffect
+                    words="A passionate developer crafting beautiful digital experiences with modern technologies and creative solutions."
+                    className="mt-4 max-w-xl text-sm"
+                  />
 
-                <div className="mt-8 flex flex-wrap gap-4 justify-center md:justify-start" style={{ paddingTop: "20px" }}>
-                  <HoverBorderGradient
-                    containerClassName="rounded-full"
-                    as="a"
-                    href="#projects"
-                    className="dark:bg-black text-white dark:text-white flex items-center space-x-2"
-                  >
-                    <span>View Projects</span>
-                  </HoverBorderGradient>
-                  <HoverBorderGradient
-                    containerClassName="rounded-full"
-                    as="a"
-                    href="#contact"
-                    className="dark:bg-black text-white dark:text-white flex items-center space-x-2"
-                  >
-                    <span>Contact Me</span>
-                  </HoverBorderGradient>
+                  <div className="mt-8 flex flex-wrap gap-4 justify-start" style={{ paddingTop: "20px" }}>
+                    <HoverBorderGradient
+                      containerClassName="rounded-full"
+                      as="a"
+                      href="#projects"
+                      className="dark:bg-black text-white dark:text-white flex items-center space-x-2"
+                    >
+                      <span>View Projects</span>
+                    </HoverBorderGradient>
+                    <HoverBorderGradient
+                      containerClassName="rounded-full"
+                      as="a"
+                      href="#contact"
+                      className="dark:bg-black text-white dark:text-white flex items-center space-x-2"
+                    >
+                      <span>Contact Me</span>
+                    </HoverBorderGradient>
+                  </div>
                 </div>
               </div>
 
-              {/* Profile Image - Right Side */}
+              {/* Profile Image - Right Side (Outside Glass Container) */}
               <div className="flex-shrink-0">
                 <ProfileImage />
               </div>
@@ -564,7 +586,7 @@ function App() {
               <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
             </svg>
           </div>
-        </EvervaultBackground>
+        </section>
 
 
         <div className="relative z-10">
